@@ -38,15 +38,15 @@ Split ratio follows research paper methodology:
 
 ### 1️⃣ Classical Machine Learning
 
-#### ✔ Bag of Words + Linear SVM
+####  Bag of Words + Linear SVM
 - CountVectorizer (20k features)
 - Linear SVM classifier
 
-#### ✔ TF-IDF + Linear SVM
+####  TF-IDF + Linear SVM
 - TF-IDF vectorization
 - Hyperparameter tuning (C optimization)
 
-#### ✔ GloVe Embeddings + Logistic Regression
+####  GloVe Embeddings + Logistic Regression
 - 100-dimensional GloVe embeddings
 - Averaged word embeddings per resume
 
@@ -54,7 +54,7 @@ Split ratio follows research paper methodology:
 
 ### 2️⃣ Deep Learning
 
-#### ✔ BERT (bert-base-uncased)
+####  BERT (bert-base-uncased)
 - HuggingFace Transformers
 - Fine-tuned for sequence classification
 - FP16 training
@@ -62,7 +62,7 @@ Split ratio follows research paper methodology:
 
 
 
-## 📈 Evaluation Metrics
+##  Evaluation Metrics
 
 For all models:
 
@@ -75,7 +75,7 @@ For all models:
 
 
 
-## 🏆 Final Results
+##  Final Results
 
 | Model | Train Accuracy | Test Accuracy | Test Weighted F1 |
 
@@ -97,7 +97,7 @@ For all models:
 
 
 
-## 🔍 Observations
+##  Observations
 
 - TF-IDF performs better than Bag-of-Words
 - GloVe underperforms due to information loss from averaging embeddings
@@ -121,7 +121,7 @@ GPU training used for BERT (RTX 4060).
 
 
 
-## 🎯 Research Objective
+##  Research Objective
 
 Reproduce and evaluate classical and deep learning approaches for resume classification and compare performance under identical dataset and split conditions.
 
