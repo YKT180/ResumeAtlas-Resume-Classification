@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#problem -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAtlas | Multi-Class Resume Classification</title>
+    <meta name="description" content="ResumeAtlas: Multi-Class Resume Classification using Classical Machine Learning and BERT - Academic Project Presentation">
+    <link rel="stylesheet" href="./ResumeAtlas _ Multi-Class Resume Classification_files/all.min.css">
+
+    <link href="./ResumeAtlas _ Multi-Class Resume Classification_files/css2" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-green {
+            background: linear-gradient(90deg, #22c55e, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            line-height: 1.2;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 50;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        nav a:hover {
+            color: #60a5fa;
+        }
+
+        .nav-inner {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            opacity: 0.7;
+            flex-wrap: wrap;
+        }
+
+        /* Main */
+        main {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 12rem 1.5rem 6rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border: 1px solid #1e293b;
+            border-radius: 9999px;
+            color: #64748b;
+            font-size: 0.625rem;
+            font-family: monospace;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            color: #94a3b8;
+            max-width: 42rem;
+            margin: 0 auto;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+            padding-left: 1.5rem;
+            text-align: left;
+        }
+
+        /* Section Headers */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title span {
+            color: #3b82f6;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+
+        .card-accent-l {
+            border-left: 4px solid #2563eb;
+        }
+
+        .card-accent-r {
+            border-right: 4px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .card-accent-t {
+            border-top: 4px solid #3b82f6;
+        }
+
+        /* Grid layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .nav-links-hide {
+                display: flex;
+            }
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        th {
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .highlight-row td {
+            background: rgba(34, 197, 94, 0.08);
+            color: #4ade80;
+            font-weight: 700;
+        }
+
+        /* Metric cards */
+        .metric {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric .value {
+            font-size: 1.75rem;
+            font-weight: 900;
+            font-family: monospace;
+            color: #60a5fa;
+        }
+
+        .metric .label {
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #64748b;
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .tag-blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+        }
+
+        .tag-purple {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c4b5fd;
+        }
+
+        .tag-green {
+            background: rgba(34, 197, 94, 0.15);
+            color: #86efac;
+        }
+
+        /* Image placeholder */
+        .img-placeholder {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-size: 0.8rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .img-placeholder i {
+            font-size: 2rem;
+            opacity: 0.4;
+        }
+
+        /* Lists */
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            position: relative;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .content-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid #0f172a;
+        }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #93c5fd;
+        }
+
+        .flow-arrow {
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        /* Best model badge */
+        .best-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(59, 130, 246, 0.2));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 9999px;
+            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Blockquote */
+        .quote-block {
+            border-left: 3px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 0 0.75rem 0.75rem 0;
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+                <div style="display:flex;flex-direction:column;text-align:left;">
+                    <span style="font-size:1.1rem;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-0.03em;">ResumeAtlas
+                        <span style="color:#3b82f6;font-style:italic;">2026</span></span>
+                    <span style="font-size:0.55rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;">Dept.
+                        of Computer Science &amp; Engineering</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#problem">Problem</a>
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#dataset">Dataset</a>
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#methodology">Methods</a>
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#results">Results</a>
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#comparison">Compare</a>
+                <a href="file:///C:/Users/jeead/Downloads/PBL%20Presentation%20_%202026.html#conclusion">Conclusion</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- 1. Title Slide -->
+        <section class="hero">
+            <div class="badge">PBL Project • CSE • 2026</div>
+            <h1><span class="gradient-text">ResumeAtlas</span></h1>
+            <p style="font-size:clamp(1rem,2.5vw,1.4rem);color:#94a3b8;font-weight:600;margin-bottom:2rem;">Multi-Class
+                Resume Classification using Classical Machine Learning and BERT</p>
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-bottom:2rem;">
+                <span class="tag tag-blue"><i class="fas fa-user" style="margin-right:0.3rem;"></i> Yash Tyagi</span>
+                <span class="tag tag-purple"><i class="fas fa-id-badge" style="margin-right:0.3rem;"></i>
+                    2427030042</span>
+                <span class="tag tag-blue"><i class="fas fa-university" style="margin-right:0.3rem;"></i> Manipal
+                    University Jaipur</span>
+            </div>
+            <p class="subtitle">"Can we automate the classification of resumes into 43 distinct professional categories
+                using classical ML pipelines and modern transformer-based deep learning models?"</p>
+        </section>
+
+        <!-- 2. Problem Statement -->
+        <section id="problem">
+            <div class="grid-2" style="align-items:stretch;">
+                <div class="card card-accent-l" style="display:flex;flex-direction:column;justify-content:center;">
+                    <h2 style="font-size:1.75rem;font-weight:800;margin-bottom:1rem;">Problem Statement</h2>
+                    <p style="color:#94a3b8;text-align:justify;line-height:1.8;">
+                        Manual resume screening is one of the most time-consuming tasks in the recruitment pipeline.
+                        With thousands of applications per opening, HR professionals spend an average of 6–8 seconds per
+                        resume. This project addresses automated multi-class resume classification — assigning resumes
+                        to one of <strong style="color:#60a5fa;">43 professional categories</strong> — using both
+                        classical machine learning and deep learning (BERT) approaches to compare their effectiveness.
+                    </p>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                    <div class="card card-accent-r">
+                        <h3 style="color:#60a5fa;font-weight:700;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;">
+                            Literature Review</h3>
+                        <p style="font-size:0.85rem;color:#64748b;">Prior works primarily used binary or few-class
+                            classification. The reference paper by Yadav et al. explored resume classification with
+                            TF-IDF + SVM on a smaller subset. Our work extends this to the full 43-class ResumeAtlas
+                            dataset and introduces BERT fine-tuning.</p>
+                    </div>
+                    <div class="card" style="border-right:4px solid rgba(168,85,247,0.5);">
+                        <h3 style="color:#c084fc;font-weight:700;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;">
+                            Research Gap &amp; Innovation</h3>
+                        <p style="font-size:0.85rem;color:#64748b;">Most existing systems handle fewer than 10 classes.
+                            Our approach benchmarks <strong style="color:#c4b5fd;">four distinct models</strong>
+                            (BoW+SVM, TF-IDF+SVM, GloVe+LR, BERT) across 43 categories, providing a comprehensive
+                            comparative analysis rarely found in literature.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Dataset Description -->
+        <section id="dataset">
+            <h2 class="section-title">Dataset <span>Description</span></h2>
+            <div class="grid-3">
+                <div class="metric">
+                    <div class="value">13,389</div>
+                    <div class="label">Total Samples</div>
+                </div>
+                <div class="metric">
+                    <div class="value">43</div>
+                    <div class="label">Professional Categories</div>
+                </div>
+                <div class="metric">
+                    <div class="value" style="color:#a78bfa;">ResumeAtlas</div>
+                    <div class="label">Dataset Source</div>
+                </div>
+            </div>
+            <div class="card" style="margin-top:2rem;">
+                <p style="color:#94a3b8;font-size:0.9rem;line-height:1.8;text-align:justify;">
+                    The <strong style="color:#60a5fa;">ResumeAtlas</strong> dataset contains 13,389 resume samples
+                    categorized into 43 professional classes including Software Engineering, Data Science, Marketing,
+                    Finance, Healthcare, Education, and many more. Each resume is stored as raw text extracted from
+                    PDF/DOCX files. Preprocessing included lowercasing, removal of special characters, stopword
+                    elimination, and tokenization.
+                </p>
+                <div style="margin-top:1.5rem;">
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700;margin-bottom:0.75rem;">
+                        Sample Categories</h4>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+                        <span class="tag tag-blue">Software Engineer</span>
+                        <span class="tag tag-purple">Data Science</span>
+                        <span class="tag tag-green">Marketing</span>
+                        <span class="tag tag-blue">Finance</span>
+                        <span class="tag tag-purple">Healthcare</span>
+                        <span class="tag tag-green">Education</span>
+                        <span class="tag tag-blue">HR</span>
+                        <span class="tag tag-purple">Sales</span>
+                        <span class="tag tag-green">Design</span>
+                        <span class="tag tag-blue">+ 34 more</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Data Splitting -->
+        <section>
+            <h2 class="section-title">Data <span>Splitting Strategy</span></h2>
+            <div class="grid-3">
+                <div class="metric" style="border-top:3px solid #3b82f6;">
+                    <div class="value">70%</div>
+                    <div class="label">Training Set</div>
+                    <div style="font-size:0.75rem;color:#475569;margin-top:0.25rem;">9,372 samples</div>
+                </div>
+                <div class="metric" style="border-top:3px solid #a855f7;">
+                    <div class="value">10%</div>
+                    <div class="label">Validation Set</div>
+                    <div style="font-size:0.75rem;color:#475569;margin-top:0.25rem;">1,339 samples</div>
+                </div>
+                <div class="metric" style="border-top:3px solid #22c55e;">
+                    <div class="value">20%</div>
+                    <div class="label">Test Set</div>
+                    <div style="font-size:0.75rem;color:#475569;margin-top:0.25rem;">2,678 samples</div>
+                </div>
+            </div>
+            <div class="quote-block" style="margin-top:1.5rem;"><strong style="color:#60a5fa;">Stratified
+                    splitting</strong> was used to preserve the class distribution across all splits, ensuring each of
+                the 43 categories maintains proportional representation in training, validation, and test sets.</div>
+        </section>
+
+        <!-- 5. Classical Machine Learning Methods -->
+        <section id="methodology">
+            <h2 class="section-title">Classical ML <span>Methods</span></h2>
+            <div class="grid-3">
+                <div class="card" style="text-align:center;border-bottom:3px solid #3b82f6;">
+                    <i class="fas fa-vector-square" style="font-size:2rem;color:#3b82f6;margin-bottom:1rem;"></i>
+                    <h3 style="font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">
+                        BoW + SVM</h3>
+                    <p style="font-size:0.8rem;color:#64748b;">Bag-of-Words feature extraction with Support Vector
+                        Machine (linear kernel) classifier. Captures word frequency patterns.</p>
+                    <div class="flow" style="margin-top:1rem;">
+                        <span class="flow-step">Text</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">BoW</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">SVM</span>
+                    </div>
+                </div>
+                <div class="card" style="text-align:center;border-bottom:3px solid #a855f7;">
+                    <i class="fas fa-weight-hanging" style="font-size:2rem;color:#a855f7;margin-bottom:1rem;"></i>
+                    <h3 style="font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">
+                        TF-IDF + SVM</h3>
+                    <p style="font-size:0.8rem;color:#64748b;">Term Frequency–Inverse Document Frequency weighting with
+                        SVM. Penalizes common terms, emphasizes discriminative words.</p>
+                    <div class="flow" style="margin-top:1rem;">
+                        <span class="flow-step">Text</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">TF-IDF</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">SVM</span>
+                    </div>
+                </div>
+                <div class="card" style="text-align:center;border-bottom:3px solid #22c55e;">
+                    <i class="fas fa-project-diagram" style="font-size:2rem;color:#22c55e;margin-bottom:1rem;"></i>
+                    <h3 style="font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">
+                        GloVe + Logistic Regression</h3>
+                    <p style="font-size:0.8rem;color:#64748b;">Pre-trained GloVe word embeddings averaged per document,
+                        fed into a Logistic Regression classifier with multi-class support.</p>
+                    <div class="flow" style="margin-top:1rem;">
+                        <span class="flow-step">Text</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">GloVe</span><span class="flow-arrow">→</span>
+                        <span class="flow-step">LR</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Deep Learning Model -->
+        <section>
+            <h2 class="section-title">Deep Learning <span>Model</span></h2>
+            <div class="card card-accent-t" style="text-align:center;max-width:48rem;margin:0 auto;">
+                <div class="best-badge" style="margin-bottom:1.5rem;"><i class="fas fa-crown"></i> Best Performing Model
+                </div>
+                <i class="fas fa-brain" style="font-size:3rem;color:#a855f7;margin-bottom:1rem;"></i>
+                <h3 style="font-size:1.5rem;font-weight:900;margin-bottom:0.5rem;">BERT <span style="color:#64748b;font-weight:400;font-size:1rem;">(bert-base-uncased)</span></h3>
+                <p style="color:#94a3b8;font-size:0.9rem;max-width:36rem;margin:1rem auto;line-height:1.8;">
+                    Fine-tuned the pre-trained <strong style="color:#c4b5fd;">bert-base-uncased</strong> transformer
+                    model (110M parameters, 12 layers, 768 hidden units) on the ResumeAtlas dataset. BERT captures deep
+                    contextual representations through bidirectional attention, enabling superior understanding of
+                    resume semantics compared to bag-of-words approaches.
+                </p>
+                <div class="grid-3" style="max-width:36rem;margin:1.5rem auto 0;">
+                    <div class="metric">
+                        <div class="value" style="font-size:1.2rem;">12</div>
+                        <div class="label">Layers</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" style="font-size:1.2rem;">110M</div>
+                        <div class="label">Parameters</div>
+                    </div>
+                    <div class="metric">
+                        <div class="value" style="font-size:1.2rem;">768</div>
+                        <div class="label">Hidden Units</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Evaluation Metrics -->
+        <section>
+            <h2 class="section-title">Evaluation <span>Metrics</span></h2>
+            <div class="grid-3">
+                <div class="card" style="text-align:center;"><i class="fas fa-bullseye" style="color:#3b82f6;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#93c5fd;">
+                        Accuracy</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Overall correctness across all classes
+                    </p>
+                </div>
+                <div class="card" style="text-align:center;"><i class="fas fa-crosshairs" style="color:#a855f7;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#c4b5fd;">
+                        Precision</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Positive predictive value per class
+                    </p>
+                </div>
+                <div class="card" style="text-align:center;"><i class="fas fa-search" style="color:#22c55e;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#86efac;">
+                        Recall</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Sensitivity / true positive rate</p>
+                </div>
+                <div class="card" style="text-align:center;"><i class="fas fa-balance-scale" style="color:#eab308;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#fde047;">
+                        Weighted F1</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Class-size weighted harmonic mean</p>
+                </div>
+                <div class="card" style="text-align:center;"><i class="fas fa-chart-bar" style="color:#f97316;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#fdba74;">
+                        Macro F1</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Unweighted mean F1 across classes</p>
+                </div>
+                <div class="card" style="text-align:center;"><i class="fas fa-th" style="color:#ec4899;font-size:1.5rem;margin-bottom:0.5rem;"></i>
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:#f9a8d4;">
+                        Confusion Matrix</h4>
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.3rem;">Class-wise prediction distribution</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Classical ML Results -->
+        <section id="results">
+            <h2 class="section-title">Classical ML <span>Results</span></h2>
+            <div class="grid-3">
+                <div class="card" style="text-align:center;border-top:3px solid #3b82f6;">
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700;margin-bottom:1rem;">
+                        BoW + SVM</h4>
+                    <div style="font-size:2.5rem;font-weight:900;font-family:monospace;color:#60a5fa;">79.50%</div>
+                    <div style="font-size:0.65rem;color:#475569;text-transform:uppercase;letter-spacing:0.15em;margin-top:0.25rem;">
+                        Test Accuracy</div>
+                </div>
+                <div class="card" style="text-align:center;border-top:3px solid #a855f7;">
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700;margin-bottom:1rem;">
+                        TF-IDF + SVM</h4>
+                    <div style="font-size:2.5rem;font-weight:900;font-family:monospace;color:#c084fc;">82.26%</div>
+                    <div style="font-size:0.65rem;color:#475569;text-transform:uppercase;letter-spacing:0.15em;margin-top:0.25rem;">
+                        Test Accuracy</div>
+                    <span class="tag tag-purple" style="margin-top:0.75rem;">Best Classical</span>
+                </div>
+                <div class="card" style="text-align:center;border-top:3px solid #22c55e;">
+                    <h4 style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700;margin-bottom:1rem;">
+                        GloVe + LR</h4>
+                    <div style="font-size:2.5rem;font-weight:900;font-family:monospace;color:#4ade80;">66.13%</div>
+                    <div style="font-size:0.65rem;color:#475569;text-transform:uppercase;letter-spacing:0.15em;margin-top:0.25rem;">
+                        Test Accuracy</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. BERT Results -->
+        <section>
+            <h2 class="section-title">BERT <span>Results</span></h2>
+            <div class="card card-accent-t" style="max-width:48rem;margin:0 auto;text-align:center;">
+                <div class="best-badge" style="margin-bottom:1.5rem;"><i class="fas fa-trophy"></i> Overall Best Model
+                </div>
+                <div class="grid-2" style="max-width:28rem;margin:0 auto;">
+                    <div class="metric" style="border:2px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.05);">
+                        <div class="value" style="color:#4ade80;font-size:2.5rem;">89.43%</div>
+                        <div class="label">Test Accuracy</div>
+                    </div>
+                    <div class="metric" style="border:2px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.05);">
+                        <div class="value" style="color:#4ade80;font-size:2.5rem;">89.31%</div>
+                        <div class="label">Weighted F1</div>
+                    </div>
+                </div>
+                <p style="color:#64748b;font-size:0.85rem;margin-top:1.5rem;">BERT achieves a <strong style="color:#4ade80;">+7.17%</strong> improvement over the best classical model (TF-IDF+SVM) on
+                    test accuracy.</p>
+            </div>
+        </section>
+
+        <!-- 10. Model Comparison Table -->
+        <section id="comparison">
+            <h2 class="section-title">Model <span>Comparison</span></h2>
+            <div class="card" style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Feature Type</th>
+                            <th>Train Acc.</th>
+                            <th>Test Acc.</th>
+                            <th>Weighted F1</th>
+                            <th>Macro F1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BoW + SVM</td>
+                            <td>Sparse (Count)</td>
+                            <td>99.14%</td>
+                            <td>79.50%</td>
+                            <td>79.12%</td>
+                            <td>76.80%</td>
+                        </tr>
+                        <tr>
+                            <td>TF-IDF + SVM</td>
+                            <td>Sparse (TF-IDF)</td>
+                            <td>99.52%</td>
+                            <td>82.26%</td>
+                            <td>81.93%</td>
+                            <td>79.50%</td>
+                        </tr>
+                        <tr>
+                            <td>GloVe + LR</td>
+                            <td>Dense (Embedding)</td>
+                            <td>72.85%</td>
+                            <td>66.13%</td>
+                            <td>65.70%</td>
+                            <td>62.40%</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><i class="fas fa-crown" style="margin-right:0.3rem;color:#fbbf24;"></i> BERT</td>
+                            <td>Contextual (Transformer)</td>
+                            <td>95.20%</td>
+                            <td>89.43%</td>
+                            <td>89.31%</td>
+                            <td>87.60%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top:2rem;text-align:center;">
+                <img src="./ResumeAtlas _ Multi-Class Resume Classification_files/model_accuracy_comparison.png" alt="Test Accuracy Comparison Bar Chart" style="max-width:100%;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);">
+            </div>
+        </section>
+
+        <!-- 11. Confusion Matrix Analysis -->
+        <section>
+            <h2 class="section-title">Confusion Matrix <span>Analysis</span></h2>
+            <div class="grid-2">
+                <div style="text-align:center;">
+                    <img src="./ResumeAtlas _ Multi-Class Resume Classification_files/confusion_matrix_tfidf.png" alt="TF-IDF + Linear SVM Confusion Matrix" style="max-width:100%;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.5rem;font-weight:600;">TF-IDF + Linear SVM
+                        Confusion Matrix</p>
+                </div>
+                <div style="text-align:center;">
+                    <img src="./ResumeAtlas _ Multi-Class Resume Classification_files/confusion_matrix_bert.png" alt="BERT Confusion Matrix" style="max-width:100%;border-radius:1rem;border:1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size:0.75rem;color:#64748b;margin-top:0.5rem;font-weight:600;">BERT Confusion Matrix
+                    </p>
+                </div>
+            </div>
+            <div class="card" style="margin-top:2rem;">
+                <h3 style="font-size:0.85rem;font-weight:800;margin-bottom:0.75rem;color:#93c5fd;">Key Observations</h3>
+                <ul class="content-list">
+                    <li><strong style="color:#e2e8f0;">Diagonal dominance</strong> — BERT's confusion matrix shows
+                        strong diagonal concentration, indicating high per-class accuracy across most of the 43
+                        categories.</li>
+                    <li><strong style="color:#e2e8f0;">Common misclassifications</strong> — Semantically similar
+                        categories (e.g., "Data Science" vs "Machine Learning Engineer," "Sales" vs "Business
+                        Development") show moderate confusion across all models.</li>
+                    <li><strong style="color:#e2e8f0;">Rare class challenges</strong> — Categories with fewer training
+                        samples exhibit lower recall, particularly for GloVe+LR which struggles with underrepresented
+                        classes.</li>
+                    <li><strong style="color:#e2e8f0;">BERT advantage</strong> — BERT significantly reduces off-diagonal
+                        errors by leveraging contextual word meaning, distinguishing similar roles more effectively than
+                        BoW/TF-IDF.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 12. Overfitting Analysis -->
+        <section>
+            <h2 class="section-title">Overfitting <span>Analysis</span></h2>
+            <div class="grid-2" style="align-items:stretch;">
+                <div class="card card-accent-l" style="border-left-color:#ef4444;">
+                    <h3 style="font-size:0.85rem;font-weight:800;margin-bottom:0.75rem;color:#fca5a5;"><i class="fas fa-exclamation-triangle" style="margin-right:0.4rem;"></i>Overfitting in
+                        Classical ML</h3>
+                    <ul class="content-list">
+                        <li><strong style="color:#e2e8f0;">BoW+SVM:</strong> 99.14% train → 79.50% test (gap: <span style="color:#f87171;">~19.6%</span>)</li>
+                        <li><strong style="color:#e2e8f0;">TF-IDF+SVM:</strong> 99.52% train → 82.26% test (gap: <span style="color:#f87171;">~17.3%</span>)</li>
+                        <li>High-dimensional sparse features allow SVM to memorize training data patterns rather than
+                            learning generalizable decision boundaries.</li>
+                        <li>With 43 classes and limited per-class samples, the model overfits to class-specific
+                            vocabulary.</li>
+                    </ul>
+                </div>
+                <div class="card card-accent-l" style="border-left-color:#22c55e;">
+                    <h3 style="font-size:0.85rem;font-weight:800;margin-bottom:0.75rem;color:#86efac;"><i class="fas fa-check-circle" style="margin-right:0.4rem;"></i>BERT's Regularization</h3>
+                    <ul class="content-list">
+                        <li><strong style="color:#e2e8f0;">BERT:</strong> 95.20% train → 89.43% test (gap: <span style="color:#4ade80;">~5.8%</span>)</li>
+                        <li>Pre-trained representations provide strong inductive bias, reducing the need to memorize
+                            training examples.</li>
+                        <li>Dropout layers (0.1) and attention mechanisms act as implicit regularizers.</li>
+                        <li>Transfer learning from massive corpus enables better generalization to unseen resumes.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13. Comparison with Research Paper -->
+        <section>
+            <h2 class="section-title">Comparison with <span>Research Paper</span></h2>
+            <div class="card card-accent-t" style="border-top-color:#a855f7;">
+                <div class="grid-2" style="align-items:start;">
+                    <div>
+                        <h3 style="font-size:0.85rem;font-weight:800;margin-bottom:0.75rem;color:#c4b5fd;">Reference
+                            Paper Approach</h3>
+                        <ul class="content-list">
+                            <li>Used TF-IDF + SVM on a smaller resume subset</li>
+                            <li>Fewer classification categories</li>
+                            <li>No deep learning comparison</li>
+                            <li>Limited evaluation metrics</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size:0.85rem;font-weight:800;margin-bottom:0.75rem;color:#86efac;">Our
+                            Improvements</h3>
+                        <ul class="content-list">
+                            <li>Full 43-class classification on 13,389 samples</li>
+                            <li>Four model comparison (BoW, TF-IDF, GloVe, BERT)</li>
+                            <li>Introduced BERT fine-tuning for resume classification</li>
+                            <li>Comprehensive metrics: Accuracy, Precision, Recall, F1</li>
+                            <li>Stratified splits ensure fair evaluation</li>
+                            <li>Overfitting analysis and confusion matrix study</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. Conclusion -->
+        <section id="conclusion">
+            <h2 class="section-title"><span>Conclusion</span></h2>
+            <div class="card" style="max-width:48rem;margin:0 auto;text-align:center;border:2px solid rgba(59,130,246,0.2);">
+                <i class="fas fa-flag-checkered" style="font-size:2.5rem;color:#3b82f6;margin-bottom:1.25rem;"></i>
+                <p style="color:#cbd5e1;font-size:1rem;line-height:1.9;margin-bottom:1.5rem;">
+                    <strong class="gradient-text">BERT</strong> significantly outperforms all classical machine learning
+                    approaches on the 43-class ResumeAtlas dataset, achieving <strong style="color:#4ade80;">89.43% test
+                        accuracy</strong> vs. 82.26% for TF-IDF+SVM. Contextual embeddings capture semantic nuances that
+                    sparse bag-of-words representations cannot, making transformer-based models the superior choice for
+                    multi-class resume classification.
+                </p>
+                <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.75rem;">
+                    <span class="tag tag-green"><i class="fas fa-check" style="margin-right:0.3rem;"></i> BERT is best
+                        for accuracy</span>
+                    <span class="tag tag-blue"><i class="fas fa-check" style="margin-right:0.3rem;"></i> TF-IDF+SVM is
+                        best classical</span>
+                    <span class="tag tag-purple"><i class="fas fa-check" style="margin-right:0.3rem;"></i> Overfitting
+                        managed via transformers</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 15. Future Work -->
+        <section>
+            <h2 class="section-title">Future <span>Work</span></h2>
+            <div class="grid-3">
+                <div class="card" style="text-align:center;">
+                    <i class="fas fa-sliders-h" style="font-size:1.75rem;color:#3b82f6;margin-bottom:0.75rem;"></i>
+                    <h4 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:800;margin-bottom:0.5rem;">
+                        Hyperparameter Tuning</h4>
+                    <p style="font-size:0.8rem;color:#64748b;">Grid/random search over learning rates, batch sizes, and
+                        epoch counts for BERT. Explore regularization for SVM models.</p>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <i class="fas fa-rocket" style="font-size:1.75rem;color:#a855f7;margin-bottom:0.75rem;"></i>
+                    <h4 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:800;margin-bottom:0.5rem;">
+                        Deployment</h4>
+                    <p style="font-size:0.8rem;color:#64748b;">Build a production-ready API with Flask/FastAPI. Deploy
+                        on cloud platforms with a user-friendly web interface for real-time classification.</p>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <i class="fas fa-book" style="font-size:1.75rem;color:#22c55e;margin-bottom:0.75rem;"></i>
+                    <h4 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:800;margin-bottom:0.5rem;">
+                        Research Publication</h4>
+                    <p style="font-size:0.8rem;color:#64748b;">Prepare findings for submission to IEEE/Springer
+                        conferences. Expand dataset with more diverse resume sources and additional languages.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team / Credits -->
+        <section style="text-align:center;padding-top:2rem;border-top:1px solid #0f172a;">
+            <h2 style="font-size:0.625rem;font-weight:900;color:#475569;text-transform:uppercase;letter-spacing:0.4em;margin-bottom:2rem;">
+                Academic Credits</h2>
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;">
+                <div class="card" style="padding:2rem 3rem;border-bottom:4px solid #2563eb;">
+                    <p style="font-size:0.55rem;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.4rem;">
+                        Project Guide</p>
+                    <p style="font-weight:900;font-size:1.15rem;">Dr. Tarun Jain</p>
+                </div>
+                <div class="card" style="padding:2rem 3rem;border-bottom:4px solid #334155;">
+                    <p style="font-size:0.55rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.4rem;">
+                        Student</p>
+                    <p style="font-weight:900;font-size:1.15rem;">Yash Tyagi</p>
+                    <p style="font-size:0.65rem;color:#64748b;margin-top:0.25rem;">2427030042</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p style="font-size:0.625rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#475569;margin-bottom:0.4rem;">
+            Manipal University Jaipur</p>
+        <p style="font-size:0.55rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#64748b;opacity:0.5;">
+            Department of Computer Science &amp; Engineering • 2026</p>
+    </footer>
+
+
+
+
+
+</body></html>
